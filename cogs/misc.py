@@ -199,7 +199,7 @@ class miscellaneous:
             await ctx.send("Mention your waifu/senpai!")
 
 
-    @commands.command(aliases=["cate"])
+    @commands.command(aliases=["cate", "cato"])
     async def cat(self, ctx):
         """Posts a random cat"""
         embed = discord.Embed(color=0xA90000, title="**CAT <:meow0w0:468426081796358155>**")
