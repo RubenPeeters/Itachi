@@ -2,6 +2,8 @@ import discord
 import discord.ext.commands as commands
 import json
 import random
+import dbl
+import asyncio
 
 def setup(bot):
     bot.add_cog(Coins(bot))
@@ -9,15 +11,8 @@ def setup(bot):
 class Coins:
     def __init__(self, bot):
         self.bot = bot
-
-    async def on_message(self, message):
-        with open('users.json', 'r') as fp:
-            users = json.load(fp)
-        self.update_data(users, message.author)
-        if random.choice([False, False, False, False, False, False, False, False, False, True]):
-            self.user_add_coins(users, message.author, 3)
-        with open('users.json', 'w') as fp:
-            json.dump(users, fp)
+        self.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1NzgzODYxNzYzMzQ4ODkwOCIsImJvdCI6dHJ1ZSwiaWF0IjoxNTMyNTU4NzEyfQ.uxAky0vSEHTUG09KlZQvtQ7PuBRyZ36PM-_A1J3AZps"
+        self.dblpy = dbl.Client(self.bot, self.token)
 
     async def on_guild_join(self, guild):
         self.add_guild_users(guild)
@@ -101,7 +96,7 @@ class Coins:
 
     @commands.command()
     async def leaderboard(self, ctx: commands.Context):
-        '''Global leaderboard for exp'''
+        '''Leaderboard for coins in this server.'''
         embed = discord.Embed(color=0xA90000)
         leaderboard = self.get_leaderboard(ctx)
         text = ":first_place: " + leaderboard[0][0] + ": **" + str(
@@ -168,5 +163,24 @@ class Coins:
                 self.update_data(users, member)
                 member_count += 1
         await ctx.send(f"Done. {member_count} members coins reset")
+        with open('users.json', 'w') as fp:
+            json.dump(users, fp)
+
+    @commands.command()
+    async def getvotes(self, ctx):
+        await ctx.message.delete()
+        with open('users.json', 'r') as fp:
+            users = json.load(fp)
+        votes = await self.dblpy.get_upvote_info(days=1, onlyids=True)
+        for x in votes:
+            for guild in self.bot.guilds:
+                for member in guild.members:
+                    if member.id == int(x["id"]):
+                        try:
+                            users[str(guild.id)][str(member.id)]['coins'] += 200
+                            await ctx.send(f"{member} has voted in the last day and has gotten 200 coins.")
+                        except:
+                            await ctx.send(f"failed to give {member} coins, even though he/she has voted.")
+
         with open('users.json', 'w') as fp:
             json.dump(users, fp)

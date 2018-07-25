@@ -167,7 +167,9 @@ class miscellaneous:
     @commands.command()
     async def vote(self, ctx):
         await ctx.send("You can vote for me here. https://discordbots.org/bot/457838617633488908.\n"
-                       "Votes are very much appreciated.")
+                       "Votes are very much appreciated.\n"
+                       "Whenever you vote, you will receive 200 coins in each guild the bot is in. \n"
+                       "As you can vote twice a day (every 12 hours), you can get 400 coins a day!")
 
     @commands.command(aliases=['pat'])
     async def headpat(self, ctx, member: discord.Member):
