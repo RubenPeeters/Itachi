@@ -192,13 +192,6 @@ class miscellaneous:
         embed.set_footer(icon_url=self.bot.user.avatar_url, text="dog.ceo")
         await ctx.send(embed=embed)
 
-    @commands.command(pass_context=True, no_pm=True)
-    async def hug(self, ctx, user: discord.Member = None):
-        """Hug your senpai/waifu!"""
-        if user is None:
-            await ctx.send("Mention your waifu/senpai!")
-
-
     @commands.command(aliases=["cate", "cato"])
     async def cat(self, ctx):
         """Posts a random cat"""

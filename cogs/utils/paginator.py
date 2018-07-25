@@ -40,7 +40,7 @@ class Pages:
         if left_over:
             pages += 1
         self.maximum_pages = pages
-        self.embed = discord.Embed(colour=discord.Colour.blurple())
+        self.embed = discord.Embed(colour=0xA90000)
         self.paginating = len(entries) > per_page
         self.show_entry_count = show_entry_count
         self.reaction_emojis = [
@@ -82,13 +82,11 @@ class Pages:
         p = []
         for index, entry in enumerate(entries, 1 + ((page - 1) * self.per_page)):
             p.append(f'{index}. {entry}')
-
         if self.maximum_pages > 1:
             if self.show_entry_count:
                 text = f'Page {page}/{self.maximum_pages} ({len(self.entries)} entries)'
             else:
                 text = f'Page {page}/{self.maximum_pages}'
-
             self.embed.set_footer(text=text)
 
         if not self.paginating:
@@ -343,7 +341,7 @@ class HelpPaginator(Pages):
         entries = [cmd for cmd in entries if (await _can_run(cmd, ctx)) and not cmd.hidden]
 
         self = cls(ctx, entries)
-        self.title = f'{cog_name} Commands'
+        self.title = f'__{cog_name} commands__'
         self.description = inspect.getdoc(cog)
         self.prefix = cleanup_prefix(ctx.bot, ctx.prefix)
 
@@ -408,7 +406,7 @@ class HelpPaginator(Pages):
 
     def get_bot_page(self, page):
         cog, description, commands = self.entries[page - 1]
-        self.title = f'{cog.title()} Commands'
+        self.title = f'__{cog.title()} Commands__'
         self.description = description
         return commands
 
@@ -422,10 +420,10 @@ class HelpPaginator(Pages):
 
         if hasattr(self, '_is_bot'):
             value ='For more help, join my support server: https://discord.gg/2XfmHUH <:blobwave:464513909374582784>'
-            self.embed.add_field(name='Support', value=value, inline=False)
+            self.embed.add_field(name='**Support**', value=value, inline=False)
 
         self.embed.set_footer(text=f'Use "{self.prefix}help command" for more info on a command.')
-
+        self.embed.set_thumbnail(url="https://i.imgur.com/JuZ9sLN.jpg")
         signature = _command_signature
 
         for entry in entries:
@@ -440,6 +438,7 @@ class HelpPaginator(Pages):
         if not first:
             await self.message.edit(embed=self.embed)
             return
+
 
         self.message = await self.channel.send(embed=self.embed)
         for (reaction, _) in self.reaction_emojis:
