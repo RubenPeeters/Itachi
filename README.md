@@ -75,7 +75,7 @@ Current implementation:<br>
   <li>fight {user} {weapon}: fight someone with something<br></li>
   <li>fortune: gets you a fortune cookie text<br></li>
   <li>insult {user}: insult a user<br></li>
-   
+</ul>   
 ***OWNER***<br>
 secret :3<br>
 <br>
