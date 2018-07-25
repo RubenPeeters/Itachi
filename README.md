@@ -76,9 +76,9 @@ Current implementation:<br>
   <li>fortune: gets you a fortune cookie text<br></li>
   <li>insult {user}: insult a user<br></li>
 </ul>   
-***OWNER***<br>
+***OWNER***
 secret :3<br>
-<br>
+
 <a href="https://discordbots.org/bot/457838617633488908" >
   <img src="https://discordbots.org/api/widget/457838617633488908.svg" alt="Itachi" />
 </a>
