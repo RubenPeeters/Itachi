@@ -16,7 +16,7 @@ class steam:
         self.bot = bot
 
     @commands.command()
-    async def steamuser(self, ctx, communityid:str):
+    async def steamuser(self, ctx, communityid: str):
         """Gets steam profile information on a user with the specified community ID"""
         await ctx.channel.trigger_typing()
         steamID = SteamID.from_url("http://steamcommunity.com/id/{}".format(communityid))
@@ -71,7 +71,7 @@ class steam:
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def steamid(self, ctx, communityid:str):
+    async def steamid(self, ctx, communityid: str):
         """Gets a steam id in all formats"""
         await ctx.channel.trigger_typing()
         steamID = SteamID.from_url("http://steamcommunity.com/id/{}".format(communityid))
