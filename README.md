@@ -2,7 +2,7 @@
 
 Python discord bot
 
-Current implementation:
+Current implementation:<br>
 ***FUN***<br>
 <ul style="list-style-type:disc">
 <li>chess: play a game of chess against whoever wants to join.<br></li>
@@ -76,10 +76,9 @@ Current implementation:
   <li>fortune: gets you a fortune cookie text<br></li>
   <li>insult {user}: insult a user<br></li>
    
-
 ***OWNER***<br>
 secret :3<br>
-
+<br>
 <a href="https://discordbots.org/bot/457838617633488908" >
   <img src="https://discordbots.org/api/widget/457838617633488908.svg" alt="Itachi" />
 </a>
