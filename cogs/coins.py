@@ -178,7 +178,7 @@ class Coins:
                     if member.id == int(x["id"]):
                         try:
                             users[str(guild.id)][str(member.id)]['coins'] += 200
-                            await ctx.send(f"{member} has voted in the last day and has gotten 200 coins.")
+                            await ctx.send(f"{member} has voted in the last day and has gotten 200 coins in {guild.name}.")
                         except:
                             await ctx.send(f"failed to give {member} coins, even though he/she has voted.")
 
