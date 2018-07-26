@@ -97,7 +97,7 @@ class Moderation:
         '''Add a prefix for this server'''
         with open('prefixes.json', 'r') as f:
             prefixes = json.load(f)
-        if len(prefixes) >= 10:
+        if len(prefixes[str(ctx.guild.id)]) >= 10:
             await ctx.send("The max amount of prefixes (10) has already been reached")
             await ctx.message.add_reaction('\N{CROSS MARK}')
         else:

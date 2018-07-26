@@ -30,7 +30,8 @@ startup_extensions = ["cogs.mod",
                       "cogs.stats",
                       "cogs.chess",
                       "cogs.images",
-                      "cogs.steam"]
+                      "cogs.steam",
+                      "cogs.settings"]
 status = ["Use !!help to find out what i can do!",
           "Need help? Join my server (!!info)",
           "with your head"]

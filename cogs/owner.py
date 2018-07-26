@@ -9,12 +9,13 @@ import textwrap
 import traceback
 import datetime
 import copy
+import json
 
 
 def setup(bot):
     bot.add_cog(owner(bot))
 
-startup_extensions = ["cogs.mod", "cogs.owner", "cogs.misc", "cogs.lookup", "cogs.tags", "cogs.emoji", "cogs.coins", "cogs.emojidatabase", "cogs.config", "cogs.info", "cogs.stats", "cogs.fun"]
+startup_extensions = ["cogs.mod", "cogs.owner", "cogs.misc", "cogs.lookup", "cogs.tags", "cogs.emoji", "cogs.coins", "cogs.emojidatabase", "cogs.config", "cogs.info", "cogs.stats", "cogs.fun", "cogs.settings"]
 
 class owner:
     def __init__(self, bot):
@@ -140,6 +141,18 @@ class owner:
         except Exception as e:
             await ctx.send('{}: {}'.format(type(e).__name__, e))
 
+    @commands.command(name="upd")
+    async def _update(self, ctx, *, update: str):
+        with open('settings.json', 'r') as f:
+            settings = json.load(f)
+        for x in settings:
+            channel_id = x["update"]
+            print(channel_id)
+            guild = discord.utils.get(self.bot.guilds, id=int(x))
+            channel = discord.utils.get(guild.channels, id=channel_id)
+            print(channel)
+            await channel.send(update)
+
     @commands.command(pass_context=True, hidden=True, name='eval')
     async def _eval(self, ctx, *, body: str):
         """Evaluates a code"""
@@ -201,5 +214,7 @@ class owner:
         fake_msg.author = target
         new_ctx = await self.bot.get_context(fake_msg)
         await self.bot.invoke(new_ctx)
+
+
 
 

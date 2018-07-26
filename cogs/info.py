@@ -23,32 +23,21 @@ class info:
         [p]info <user>
         [p]info config <cog/module>
         '''
-        for x in self.bot.guilds:
-            for chan in x.channels:
-                if chan.id == self.errorchannelid:
-                    errorchannel = chan
         try:
-            embed = discord.Embed(title="Itachi", description="General Discord Bot", color=0xA90000)
-            embed.add_field(name="Author", value="Ruben#9999",inline=False)
-            embed.add_field(name="Server count", value=f"{len(self.bot.guilds)}",inline=False)
-            embed.add_field(name="Invite",
-                        value="[Invite link](https://discordapp.com/api/oauth2/authorize?client_id=457838617633488908&scope=bot&permissions=473052286)",inline=False)
+            embed = discord.Embed(title="Itachi", description="Multipurpose Discord Bot", color=0xA90000)
+            embed.add_field(name="<:dblAdmin:471956486206128132> Author", value="Ruben#9999",inline=False)
+            embed.add_field(name="Invite?",
+                        value="[This is my invite link](https://discordapp.com/api/oauth2/authorize?client_id=457838617633488908&scope=bot&permissions=473052286)", inline=False)
             embed.add_field(name="Need help?",
-                        value="[Server invite link](https://discord.gg/2XfmHUH)",inline=False)
+                        value="[Join my server!](https://discord.gg/2XfmHUH)", inline=False)
             await ctx.send(embed=embed)
         except Exception as e:
             exc = "{}: {}".format(type(e).__name__, e)
-            await errorchannel.send(
-                'Failed to send info embed\n{}\n{}'.format(exc, ctx.guild.name))
             print('Failed to send embed\n{}'.format(exc))
 
     @info.command()
     async def server(self, ctx):
         '''Show information on the current server'''
-        for x in self.bot.guilds:
-            for chan in x.channels:
-                if chan.id == self.errorchannelid:
-                    errorchannel = chan
         try:
             server = ctx.message.guild
             roles = [x.name for x in server.role_hierarchy]
@@ -58,22 +47,16 @@ class info:
                 roles.append('>>>> [50/%s] Roles' % len(roles))
             roles = ', '.join(roles);
             channelz = len(server.channels);
-            time = str(server.created_at);
-            time = time.split(' ');
-            time = time[0];
             join = discord.Embed(description='%s ' % (str(server)), title='Server Name', colour=0xA90000)
             join.set_thumbnail(url=server.icon_url);
-            join.add_field(name='__Owner__', value=str(server.owner) + '\n' + str(server.owner.id))
-            join.add_field(name='__ID__', value=str(server.id))
-            join.add_field(name='__Member Count__', value=str(server.member_count))
-            join.add_field(name='__Text/Voice Channels__', value=str(channelz))
-            join.add_field(name='__Roles {}__'.format(str(role_length)), value=roles)
-            join.set_footer(text='Created: {}'.format(time))
+            join.add_field(name='<:dblAdmin:471956486206128132> __Owner__', value=str(server.owner) + '\n' + str(server.owner.id))
+            join.add_field(name='<:discord:471962154656858122> __ID__', value=str(server.id))
+            join.add_field(name='<:users_icon:449826080682147840> __Member Count__', value=str(server.member_count))
+            join.add_field(name='<:channels_icon:449825660064759809> __Text/Voice Channels__', value=str(channelz))
+            join.add_field(name='<a:ablobsunglasses:468521148976463902> __Roles {}__'.format(str(role_length)), value=roles)
             await ctx.send(embed=join)
         except Exception as e:
             exc = "{}: {}".format(type(e).__name__, e)
-            await errorchannel.send(
-                'Failed to send info server embed\n{}\n{}'.format(exc, ctx.guild.name))
             print('Failed to send embed\n{}'.format(exc))
 
     @info.command()
@@ -89,7 +72,6 @@ class info:
         embed.add_field(name="Joined at:", value=user.joined_at, inline=False)
         embed.add_field(name="Display name:", value=user.display_name, inline=False)
         embed.add_field(name="Roles:", value=roles, inline=False)
-        embed.set_footer(text="Amaterasu!", icon_url=self.bot.user.avatar_url)
         await ctx.send(embed=embed)
 
     @info.command()
