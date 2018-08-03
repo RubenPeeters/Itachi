@@ -248,3 +248,4 @@ class miscellaneous:
     async def insult(self, ctx, *, user: str):
         """Insult those ass wipes"""
         await ctx.send("{} {}".format(user, random.choice(insults)))
+

@@ -24,12 +24,20 @@ class info:
         [p]info config <cog/module>
         '''
         try:
-            embed = discord.Embed(title="Itachi", description="Multipurpose Discord Bot", color=0xA90000)
-            embed.add_field(name="<:dblAdmin:471956486206128132> Author", value="Ruben#9999",inline=False)
+            embed = discord.Embed(description="Multipurpose Discord Bot\n"
+                                              "__**General notice:**__\n"
+                                              "Use [p]setu #(a text channel in your server) to receive major updates about the bot.\n"
+                                              "Don't worry, I won't spam your server.\n"
+                                              "Have a great time using Itachi!", color=0xA90000)
+            embed.add_field(name="<:meowcrown:472052473364873216> Author", value="Ruben#9999", inline=False)
+            embed.add_field(name="Donations", value="[Donations](https://paypal.me/Itachibot) are needed to keep the bot running. \n"
+                                                                           "Any money you can spare is greatly appreciated, but don't feel obliged to donate.\n"
+                                                    "\n")
             embed.add_field(name="Invite?",
                         value="[This is my invite link](https://discordapp.com/api/oauth2/authorize?client_id=457838617633488908&scope=bot&permissions=473052286)", inline=False)
             embed.add_field(name="Need help?",
                         value="[Join my server!](https://discord.gg/2XfmHUH)", inline=False)
+            embed.set_footer(icon_url=self.bot.user.avatar_url, text="Replace [p] with the custom prefix in your server")
             await ctx.send(embed=embed)
         except Exception as e:
             exc = "{}: {}".format(type(e).__name__, e)
@@ -88,14 +96,44 @@ class info:
                 to_send += "{}: {}".format("✅" if guilds[str(ctx.guild.id)][x] else "❌", x) + "\n"
             await ctx.send("```" + to_send + "```")
 
-    @commands.command()
-    async def avatar(self, ctx, *, member: discord.Member=None):
-        embed = discord.Embed(color=0x7F81FF)
+
+    @commands.command(name='perms', aliases=['perms_for', 'permissions'])
+    @commands.guild_only()
+    async def check_permissions(self, ctx, *, member: discord.Member=None):
+        """A simple command which checks a members Guild Permissions.
+        If member is not provided, the author will be checked."""
+
+        if not member:
+            member = ctx.author
+
+        # Here we check if the value of each permission is True.
+        perms = '\n'.join(perm for perm, value in member.guild_permissions if value)
+
+        # And to make it look nice, we wrap it in an Embed.
+        embed = discord.Embed(title='Permissions for:', description=ctx.guild.name, colour=member.colour)
+        embed.set_author(icon_url=member.avatar_url, name=str(member))
+
+        # \uFEFF is a Zero-Width Space, which basically allows us to have an empty field name.
+        embed.add_field(name='\uFEFF', value=perms)
+
+        await ctx.send(content=None, embed=embed)
+        # Thanks to Gio for the Command.
+
+    @commands.command(name='top_role', aliases=['toprole'])
+    @commands.guild_only()
+    async def show_toprole(self, ctx, *, member: discord.Member = None):
+        """Simple command which shows the members Top Role."""
+
         if member is None:
-            embed.set_image(url=ctx.author.avatar_url)
-        else:
-            embed.set_image(url=member.avatar_url)
-        await ctx.send(embed=embed)
+            member = ctx.author
+
+        await ctx.send(f'The top role for {member.display_name} is {member.top_role.name}')
+
+    @commands.command()
+    @commands.guild_only()
+    async def joined(self, ctx, *, member: discord.Member):
+        """Says when a member joined."""
+        await ctx.send(f'{member.display_name} joined on {member.joined_at}')
 
 
 

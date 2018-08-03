@@ -83,4 +83,8 @@ class stats:
         except Exception as e:
             await ctx.send('{}: {}'.format(type(e).__name__, e))
 
+    @commands.command()
+    async def ping(self, ctx):
+        await ctx.send('`Latency: {0} ms`'.format(round(self.bot.latency * 1000, 1)))
+
 

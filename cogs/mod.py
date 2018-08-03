@@ -159,10 +159,6 @@ class Moderation:
 
         await ctx.send(embed=embed, delete_after=30)
 
-    @commands.command()
-    async def ping(self, ctx):
-        await ctx.send('`Latency: {0} ms`'.format(round(self.bot.latency*1000, 1)))
-
 
     @commands.command()
     @commands.is_owner()

@@ -40,20 +40,7 @@ class utils:
         except:
             await ctx.message.add_reaction('\N{CROSS MARK}')
 
-    @commands.command(aliases=['color', 'colour'])
-    async def _color(self, ctx, *, color: hex):
-        for x in self.bot.guilds:
-            for chan in x.channels:
-                if chan.id == self.errorchannelid:
-                    self.errorchannel = chan
-        try:
-            embed = discord.Embed(title=str(color), color=color)
-            await ctx.send(embed=embed)
-        except Exception as e:
-            exc = "{}: {}".format(type(e).__name__, e)
-            await self.errorchannel.send(
-                'Failed to send color\n{}\n{}'.format(exc, ctx.guild.name))
-            print('Failed to send color\n{}'.format(exc))
+
 
 
 

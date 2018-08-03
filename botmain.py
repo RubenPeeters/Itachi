@@ -18,10 +18,11 @@ else:
 startup_extensions = ["cogs.mod",
                       "cogs.owner",
                       "cogs.misc",
+                      "cogs.music",
                       "cogs.lookup",
                       "cogs.tags",
-                      #"cogs.emoji",
-                      "cogs.coins",
+                      "cogs.emoji",
+                      #"cogs.coins",
                       "cogs.emojidatabase",
                       "cogs.config",
                       "cogs.info",
@@ -109,6 +110,7 @@ class Itachi(commands.AutoShardedBot):
         logchannel = await self.get_logchannel()
         exception = getattr(exception, 'original', exception)
         tb = ''.join(traceback.format_exception(type(exception), exception, exception.__traceback__, chain=False))
+        print(tb)
         if ctx.guild is not None:
             if isinstance(exception, commands.CommandInvokeError):
                 await logchannel.send("```py\n"
@@ -116,7 +118,7 @@ class Itachi(commands.AutoShardedBot):
                                       "Guild: {} ID: {}\n"
                                       "Member: {}\n"
                                       "Error: {}: {}\n"
-                                      "Traceback: ()```".format(ctx.guild, ctx.guild.id, ctx.author, type(exception).__name__, exception, tb))
+                                      "```".format(ctx.guild, ctx.guild.id, ctx.author, type(exception).__name__, exception))
 
         else:
             if isinstance(exception, commands.CommandInvokeError):
@@ -125,7 +127,7 @@ class Itachi(commands.AutoShardedBot):
                                       "Private Message\n"
                                       "Member: {}\n"
                                       "Error: {}: {}\n"
-                                      "Traceback: {}```".format(ctx.author, type(exception).__name__, exception, tb))
+                                      "```".format(ctx.author, type(exception).__name__, exception))
 
 
     async def on_guild_join(self, guild):

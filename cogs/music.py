@@ -265,7 +265,6 @@ class Music:
         return self.music_states.setdefault(guild_id, GuildMusicState(self.bot.loop))
 
     @commands.command()
-    @checks.is_music_enabled()
     async def status(self, ctx):
         """Displays the currently played song."""
         if ctx.music_state.is_playing():
@@ -275,14 +274,15 @@ class Music:
             await ctx.send('Not playing.')
 
     @commands.command()
-    @checks.is_music_enabled()
     async def playlist(self, ctx):
         """Shows info about the current playlist."""
-        await ctx.send(f'{ctx.music_state.playlist}')
+        string = "There are no songs in the playlist"
+        embed = discord.Embed(description=f'{ctx.music_state.playlist or string}', color=0xA90000)
+        embed.set_author(icon_url=ctx.author.avatar_url, name=ctx.author)
+        await ctx.send(embed=embed)
 
     @commands.command()
     @commands.has_permissions(manage_guild=True)
-    @checks.is_music_enabled()
     async def join(self, ctx, *, channel: discord.VoiceChannel = None):
         """Summons the bot to a voice channel.
         If no channel is given, summons it to your current voice channel.
@@ -298,7 +298,6 @@ class Music:
             ctx.music_state.voice_client = await destination.connect()
 
     @commands.command()
-    @checks.is_music_enabled()
     async def play(self, ctx, *, request: str):
         """Plays a song or adds it to the playlist.
         Automatically searches with youtube_dl
@@ -338,27 +337,23 @@ class Music:
         await ctx.message.add_reaction('\N{CROSS MARK}')
 
     @commands.command()
-    @checks.is_music_enabled()
     async def pause(self, ctx):
         """Pauses the player."""
         if ctx.voice_client:
             ctx.voice_client.pause()
 
     @commands.command()
-    @checks.is_music_enabled()
     async def resume(self, ctx):
         """Resumes the player."""
         if ctx.voice_client:
             ctx.voice_client.resume()
 
     @commands.command()
-    @checks.is_music_enabled()
     async def stop(self, ctx):
         """Stops the player, clears the playlist and leaves the voice channel."""
         await ctx.music_state.stop()
 
     @commands.command()
-    @checks.is_music_enabled()
     async def volume(self, ctx, volume: int = None):
         """Sets the volume of the player, scales from 0 to 100."""
         if volume < 0 or volume > 100:
@@ -366,13 +361,11 @@ class Music:
         ctx.music_state.volume = volume / 100
 
     @commands.command()
-    @checks.is_music_enabled()
     async def clear(self, ctx):
         """Clears the playlist."""
         ctx.music_state.playlist.clear()
 
     @commands.command()
-    @checks.is_music_enabled()
     async def skip(self, ctx):
         """Votes to skip the current song.
         To configure the minimum number of votes needed, use `minskips`
@@ -393,7 +386,6 @@ class Music:
             ctx.voice_client.stop()
 
     @commands.command()
-    @checks.is_music_enabled()
     async def minskips(self, ctx, number: int):
         """Sets the minimum number of votes to skip a song.
         Requires the `Manage Guild` permission.

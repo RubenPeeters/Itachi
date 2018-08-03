@@ -106,10 +106,10 @@ class Coins:
                                  ":third_place: " + leaderboard[2][0] + ": **" + str(
             leaderboard[2][1]) + "** :moneybag:\n"
         embed.add_field(name="Coin Leaderboard {}".format(ctx.guild.name), value=text)
-        embed.set_footer(text="Win games against friend or gamble to earn more coins!", icon_url=self.bot.user.avatar_url)
+        embed.set_footer(text="Vote for Itachi to earn coins or gamble with them! Try !!vote.", icon_url=self.bot.user.avatar_url)
         await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def gamble(self, ctx: commands.Context, amount: int):
         allowed = True
         with open('users.json', 'r') as fp:
@@ -130,7 +130,7 @@ class Coins:
             exc = "{}: {}".format(type(e).__name__, e)
             print('Failed to get gamble\n{}'.format(exc))
 
-    @commands.command()
+    @commands.command(hidden=True)
     @commands.is_owner()
     async def givec(self, ctx: commands.Context, amount: int, member: discord.Member=None):
         with open('users.json', 'r') as fp:
@@ -141,7 +141,7 @@ class Coins:
         self.user_add_coins(users, user, amount)
         await ctx.send(f"{user}\'s new balance is {users[str(ctx.guild.id)][str(user.id)]['coins']}")
 
-    @commands.command()
+    @commands.command(hidden=True)
     @commands.is_owner()
     async def delc(self, ctx: commands.Context, amount: int, member: discord.Member = None):
         with open('users.json', 'r') as fp:
@@ -152,7 +152,7 @@ class Coins:
         self.user_remove_coins(users, user, amount)
         await ctx.send(f"{user}\'s new balance is {users[str(ctx.guild.id)][str(user.id)]['coins']}")
 
-    @commands.command(aliases=["relc"])
+    @commands.command(aliases=["relc"], hidden=True)
     @commands.is_owner()
     async def manual_reload_coins(self, ctx):
         member_count = 0
@@ -166,7 +166,8 @@ class Coins:
         with open('users.json', 'w') as fp:
             json.dump(users, fp)
 
-    @commands.command()
+    @commands.command(hidden=True)
+    @commands.is_owner()
     async def getvotes(self, ctx):
         await ctx.message.delete()
         with open('users.json', 'r') as fp:
