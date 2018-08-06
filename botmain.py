@@ -32,7 +32,9 @@ startup_extensions = ["cogs.mod",
                       "cogs.chess",
                       "cogs.images",
                       "cogs.steam",
-                      "cogs.settings"]
+                      "cogs.settings",
+                      #"cogs.league",
+                      ]
 status = ["Use !!help to find out what i can do!",
           "Need help? Join my server (!!info)",
           "with your head"]
@@ -132,28 +134,32 @@ class Itachi(commands.AutoShardedBot):
 
     async def on_guild_join(self, guild):
         logchannel = await self.get_log_joining_channel()
-        with open('guilds.json', 'r') as f:
-            guilds = json.load(f)
-            await self.add_guild_permissions(guilds, guild)
-            embed = discord.Embed(title="Hi! I'm Itachi", color=0xA90000)
-            embed.add_field(name="Introduction <:blobwave:464513909374582784>",
-                            value="All of my modules are currently enabled.\n"
-                                  "To enable/disable them use the command: <@457838617633488908> config {module name here} enable/disable\n"
-                                  "To see which modules are enabled/disabled use <@457838617633488908> info config\n\n"
-                                  "To set custom prefixes and/or remove them, use <@457838617633488908> prefix add/remove {prefix}\n"
-                                  "The custom prefix defaults to **!!**")
-            try:
-                await guild.system_channel.send(embed=embed)
-            except:
-                await guild.channels[0].send(embed=embed)
-            finally:
-                with open('guilds.json', 'w') as f:
-                    json.dump(guilds, f)
-        await logchannel.send(f"```ini\n"
-                                                 f"[Guild Name] {guild.name}\n"
-                                                 f"[Guild ID] {guild.id}\n"
-                                                 f"[Members] {len(guild.members)}\n"
-                                                 f"```")
+        try:
+            with open('guilds.json', 'r') as f:
+                guilds = json.load(f)
+                await self.add_guild_permissions(guilds, guild)
+                embed = discord.Embed(title="Hi! I'm Itachi", color=0xA90000)
+                embed.add_field(name="Introduction <:blobwave:464513909374582784>",
+                                value="All of my modules are currently enabled.\n"
+                                      "To enable/disable them use the command: <@457838617633488908> config {module name here} enable/disable\n"
+                                      "To see which modules are enabled/disabled use <@457838617633488908> info config\n\n"
+                                      "To set custom prefixes and/or remove them, use <@457838617633488908> prefix add/remove {prefix}\n"
+                                      "The custom prefix defaults to **!!**")
+                try:
+                    await guild.system_channel.send(embed=embed)
+                except:
+                    await guild.channels[0].send(embed=embed)
+                finally:
+                    with open('guilds.json', 'w') as f:
+                        json.dump(guilds, f)
+        except:
+            print("couldnt send welcome message")
+        finally:
+            await logchannel.send(f"```ini\n"
+                                                     f"[Guild Name] {guild.name}\n"
+                                                     f"[Guild ID] {guild.id}\n"
+                                                     f"[Members] {len(guild.members)}\n"
+                                                     f"```")
 
     async def on_member_join(self, member):
         try:
