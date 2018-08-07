@@ -1099,7 +1099,7 @@ class LeagueLookup:
             self.region = region
         else:
             self.region = region + "1"
-        self.riotwatcher = RiotWatcher("RGAPI-343dae2c-e864-4795-962e-ed0691a3fcfc")
+        self.riotwatcher = RiotWatcher("RGAPI-5743be1f-59a7-410b-9cdd-29401a3b7a90")
 
     def get_summoner_info(self):
         # Load in the basic information about a summoner
