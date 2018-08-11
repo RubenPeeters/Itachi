@@ -164,11 +164,19 @@ class Itachi(commands.AutoShardedBot):
     async def on_member_join(self, member):
         try:
             role = discord.utils.get(member.guild.roles, name='New')
-            if role:
-                await member.add_roles(role)
+            await member.add_roles(role)
         except Exception as e:
             exc = "{}: {}".format(type(e).__name__, e)
             print('Failed to assign \'New\' role \n{}'.format(exc))
+        try:
+            for chnnl in member.guild.channels:
+                if chnnl.name == "welcome":
+                    embed = discord.Embed()
+                    embed.set_footer(text=f"{member.name} has joined {member.guild.name}", icon_url=member.avatar_url)
+                    await chnnl.send(embed=embed)
+        except Exception as e:
+            exc = "{}: {}".format(type(e).__name__, e)
+            print('Failed to send welcome message\n{}'.format(exc))
 
     async def change_status(self):
         await self.wait_until_ready()

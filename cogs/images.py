@@ -7,7 +7,7 @@ import aiohttp
 
 # PIL can be installed through
 # `pip install -U Pillow`
-from PIL import Image, ImageDraw, ImageStat
+from PIL import Image, ImageDraw, ImageStat, ImageFont
 
 # partial lets us prepare a new function with args for run_in_executor
 from functools import partial
@@ -174,6 +174,75 @@ class ImageCog:
         embed.set_image(url="attachment://black_and_white.png")
         file = discord.File(filename="black_and_white.png", fp=output_buffer)
         await ctx.send(embed=embed, file=file)
+
+    @commands.command(aliases=["mlady"])
+    async def fedora(self, ctx, *, member: discord.Member=None):
+        # If no member specified > member = author
+        member = member or ctx.author
+        output_buffer = BytesIO()
+        avatar_bytes = await self.get_avatar(member)
+        img = Image.open(BytesIO(avatar_bytes))
+        fedora = Image.open(r'/root/home/itachi/assets/fedora/fedora.png', 'r')
+        fedora = fedora.resize(img.size)
+        img.paste(fedora, (0, 0), fedora)
+        img.save(output_buffer, "png")
+        output_buffer.seek(0)
+        file = discord.File(filename="test.png", fp=output_buffer)
+        await ctx.send(file=file)
+
+    @commands.command()
+    async def sickban(self, ctx, *, member: discord.Member = None):
+        # If no member specified > member = author
+        member = member or ctx.author
+        output_buffer = BytesIO()
+        avatar_bytes = await self.get_avatar(member)
+        img = Image.open(BytesIO(avatar_bytes))
+        ban = Image.open(r'/root/home/itachi/assets/ban/ban.png',
+                            'r')
+        img = img.resize((417, 417))
+        ban.paste(img, (60, 334))
+        ban.save(output_buffer, "png")
+        output_buffer.seek(0)
+        file = discord.File(filename="test.png", fp=output_buffer)
+        await ctx.send(file=file)
+
+    @commands.command()
+    async def trash(self, ctx, *, member: discord.Member = None):
+        # If no member specified > member = author
+        member = member or ctx.author
+        output_buffer = BytesIO()
+        avatar_bytes = await self.get_avatar(member)
+        img = Image.open(BytesIO(avatar_bytes))
+        ban = Image.open(r'/root/home/itachi/assets/trash/trash.png',
+                         'r')
+        img = img.resize((480, 480))
+        ban.paste(img, (480, 0))
+        ban.save(output_buffer, "png")
+        output_buffer.seek(0)
+        file = discord.File(filename="test.png", fp=output_buffer)
+        await ctx.send(file=file)
+
+    @commands.command()
+    async def abandon(self, ctx, *, text: str = "I dont give Itachi parameters for commands."):
+        if len(text) >= 48:
+            await ctx.send("the input was too long. (>48 characters)")
+            return
+        if len(text) >= 24:
+            text = text[:24] + '\n' + text[24:]
+        output_buffer = BytesIO()
+        abandon = Image.open(r'/root/home/itachi/assets/abandon/abandon.png'
+                             , 'r')
+        draw = ImageDraw.Draw(abandon)
+        font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/arial.ttf', 30)
+        draw.text((30, 428), text, (0, 0, 0), font=font)
+        abandon.save(output_buffer, "png")
+        output_buffer.seek(0)
+        file = discord.File(filename="test.png", fp=output_buffer)
+        await ctx.send(file=file)
+
+
+
+
 
 # setup function so this can be loaded as an extension
 def setup(bot: commands.Bot):
