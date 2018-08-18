@@ -33,7 +33,7 @@ startup_extensions = ["cogs.mod",
                       "cogs.images",
                       "cogs.steam",
                       "cogs.settings",
-                      #"cogs.league",
+                      "cogs.league",
                       ]
 status = ["Use !!help to find out what i can do!",
           "Need help? Join my server (!!info)",
@@ -64,7 +64,8 @@ class Itachi(commands.AutoShardedBot):
             try:
                 self.load_extension(extension)
             except Exception as e:
-                print('Failed to load extension {}.'.format(extension))
+                print('Failed to load extension {}\n'
+                      'Error: {}.'.format(extension, e))
 
     async def get_logchannel(self):
         for x in self.guilds:

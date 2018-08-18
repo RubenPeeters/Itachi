@@ -21,7 +21,7 @@ from discord.ext import commands
 
 from .utils import checks
 
-import cogs.utils.mypaginator
+from .utils import paginator
 
 import sqlite3
 import traceback
@@ -1257,7 +1257,7 @@ class Music:
         if len(q) <= 0:
             return await ctx.send(f'```css\n[No songs currently queued.]\n```', delete_after=10)
 
-        p = cogs.utils.paginator.Pages(ctx, entries=q, per_page=10)
+        p = paginator.Pages(ctx, entries=q, per_page=10)
 
         await p.paginate()
 
@@ -1354,18 +1354,22 @@ class Music:
 
         conn = sqlite3.connect('itachi.db')
         c = conn.cursor()
+
         try:
-            c.execute("""INSERT INTO playlists(uid, combined, song_id, song_name)
+
+            c.execute("""INSERT OR IGNORE INTO playlists(uid, combined, song_id, song_name)
                                   VALUES($1, $2, $3, $4)""",
                             (int(ctx.author.id), str(f'{ctx.author.id}{song.id}'), str(song.id), str(song.title)))
             conn.commit()
             conn.close()
+
         except Exception as e:
             return await ctx.send(f'{ctx.author.mention}. This song is already in your playlist!\n {e}',
                                   delete_after=30)
         else:
             return await ctx.send(f'Alright {ctx.author.mention}, I added `{song.title}` to your playlist.',
                                   delete_after=30)
+
 
     @playlist_.command(name='list')
     async def list_playlist(self, ctx):
@@ -1375,7 +1379,7 @@ class Music:
                                   delete_after=30)
 
         entries = [f'`{s[1]}`' for i, s in enumerate(plist)]
-        p = cogs.utils.paginator.Pages(ctx, entries=entries, per_page=10)
+        p = paginator.Pages(ctx, entries=entries, per_page=10)
         await p.paginate()
 
     @commands.group(name='dj', aliases=['force'], abstractors=['new'])

@@ -28,7 +28,6 @@ class settings:
     @commands.command(aliases=["setu"])
     @commands.has_permissions(administrator=True)
     async def setupdatechannel(self, ctx, *, channel: discord.TextChannel):
-        '''Set the update channel for the server'''
         with open('settings.json', 'r') as f:
             settings = json.load(f)
         await self.update_data_update(settings, channel)
@@ -38,7 +37,6 @@ class settings:
     @commands.command(aliases=["setm"])
     @commands.has_permissions(administrator=True)
     async def setmodchannel(self, ctx, *, channel: discord.TextChannel):
-        '''Set the mod channel for the server'''
         with open('settings.json', 'r') as f:
             settings = json.load(f)
         await self.update_data_mod(settings, channel)

@@ -1017,7 +1017,7 @@ class riot:
             if _["id"] == id:
                 return _["name"]
 
-    @commands.command(aliases=["bl"])
+    @commands.command(aliases=["bl"], hidden=True)
     async def profile(self, ctx, region: str, *, name: str):
         try:
             embed = discord.Embed(title=f"Basic lookup for {name.capitalize()}", color=0xA90000)
@@ -1037,7 +1037,7 @@ class riot:
         except:
             await ctx.send("Ratelimit exceeded, try again in about 10 minutes. To prevent this from happening, don't spam the command.")
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def game(self, ctx, region: str, *, name: str):
         embed = discord.Embed(color=0xA90000)
         try:
@@ -1099,7 +1099,7 @@ class LeagueLookup:
             self.region = region
         else:
             self.region = region + "1"
-        self.riotwatcher = RiotWatcher("RGAPI-5743be1f-59a7-410b-9cdd-29401a3b7a90")
+        self.riotwatcher = RiotWatcher("RGAPI-8d8a6467-425a-402e-b819-3d48304831b0")
 
     def get_summoner_info(self):
         # Load in the basic information about a summoner

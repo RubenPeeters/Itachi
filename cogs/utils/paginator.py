@@ -325,6 +325,7 @@ def _command_signature(cmd):
 
 
 class HelpPaginator(Pages):
+    # TODO: from_cog --> get the commands per cog (cmd in entries) and use them per "show_x" command. Add help command for each cog.
     def __init__(self, ctx, entries, *, per_page=4):
         super().__init__(ctx, entries=entries, per_page=per_page)
         self.reaction_emojis.append(('\N{WHITE QUESTION MARK ORNAMENT}', self.show_bot_help))
@@ -337,9 +338,11 @@ class HelpPaginator(Pages):
         # get the commands
         entries = sorted(ctx.bot.get_cog_commands(cog_name), key=lambda c: c.name)
 
+
         # remove the ones we can't run
         entries = [cmd for cmd in entries if (await _can_run(cmd, ctx)) and not cmd.hidden]
-
+        for cmd in entries:
+            print(cmd)
         self = cls(ctx, entries)
         self.title = f'__{cog_name} commands__'
         self.description = inspect.getdoc(cog)
@@ -438,8 +441,6 @@ class HelpPaginator(Pages):
         if not first:
             await self.message.edit(embed=self.embed)
             return
-
-
         self.message = await self.channel.send(embed=self.embed)
         for (reaction, _) in self.reaction_emojis:
             if self.maximum_pages == 2 and reaction in ('\u23ed', '\u23ee'):

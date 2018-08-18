@@ -3,7 +3,7 @@ import discord.ext.commands as commands
 import random
 import asyncio
 from .utils import checks
-from .utils.paginator import HelpPaginator, CannotPaginate
+from .utils.mypaginator import HelpPaginator, CannotPaginate
 import requests
 import io
 from cogs.utils.fortunes import fortunes

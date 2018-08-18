@@ -4,6 +4,27 @@ import json
 import os
 
 
+def has_perms_or_dj(**perms):
+    def predicate(ctx):
+
+        try:
+            player = ctx.bot.get_cog('Music').controllers[ctx.guild.id]
+        except KeyError:
+            return False
+
+        if ctx.author.id == player.dj.id:
+            return True
+
+        ch = ctx.channel
+        permissions = ch.permissions_for(ctx.author)
+
+        missing = [perm for perm, value in perms.items() if getattr(permissions, perm, None) != value]
+
+        if not missing:
+            return True
+
+        raise commands.MissingPermissions(missing)
+    return commands.check(predicate)
 
 async def check_cogs_enabled(ctx: commands.Context, cog: str):
     os.chdir(r'/root/home/itachi')

@@ -110,6 +110,7 @@ class owner:
                 await ctx.message.remove_reaction('\N{HOURGLASS}', ctx.me)
                 await ctx.message.add_reaction('\N{CROSS MARK}')
                 await ctx.send('{}: {}'.format(type(e).__name__, e))
+                traceback.print_exc()
             else:
                 await ctx.message.remove_reaction('\N{HOURGLASS}', ctx.me)
                 await ctx.message.add_reaction('\N{WHITE HEAVY CHECK MARK}')
@@ -122,6 +123,7 @@ class owner:
                 await ctx.message.remove_reaction('\N{HOURGLASS}', ctx.me)
                 await ctx.message.add_reaction('\N{CROSS MARK}')
                 await ctx.send('{}: {}'.format(type(e).__name__, e))
+                traceback.print_exc()
             else:
                 await ctx.message.remove_reaction('\N{HOURGLASS}', ctx.me)
                 await ctx.message.add_reaction('\N{WHITE HEAVY CHECK MARK}')

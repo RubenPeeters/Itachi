@@ -2,7 +2,7 @@ import discord
 import discord.ext.commands as commands
 import json
 from .utils import checks
-
+import os
 
 def setup(bot):
     bot.add_cog(exp(bot))
@@ -58,6 +58,7 @@ def get_lvl(user_id: int):
 class exp:
     def __init__(self, bot):
         self.bot = bot
+        self.errorchannelid = 467672989232529418
 
 
     async def on_message(self, message):
@@ -70,6 +71,7 @@ class exp:
 
             with open('users.json', 'w') as fp:
                 json.dump(users, fp)
+
 
     async def on_member_join(self, member):
         if checks.is_exp_enabled():
@@ -90,6 +92,10 @@ class exp:
 
 
     async def level_up(self, users, user, channel):
+        for x in self.bot.guilds:
+            for chan in x.channels:
+                if chan.id == self.errorchannelid:
+                    errorchannel = chan
         xp = users[str(user.id)]['xp']
         lvl_start = users[str(user.id)]['level']
         lvl_end = int(xp ** (1 / 4))
@@ -103,6 +109,8 @@ class exp:
                     await user.remove_roles(role2)
                 except Exception as e:
                     exc = "{}: {}".format(type(e).__name__, e)
+                    await errorchannel.send(
+                        'Failed to level up\n{}\n{}'.format(exc))
                     print('Failed to assign \'Casual\' role \n{}'.format(exc))
 
     @checks.is_exp_enabled()
